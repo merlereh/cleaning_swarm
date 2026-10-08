@@ -1,0 +1,17 @@
+{
+  "rooms": [
+    {"name": "kitchen", "floor": "tile", "x": [0, 3], "y": [0, 3]},
+    {"name": "living room", "floor": "carpet", "x": [3, 8], "y": [0, 6]},
+    {"name": "bathroom", "floor": "tile", "x": [0, 3], "y": [3, 6]}
+  ],
+  "robots": [
+    {"id": "vacuum_1", "can": ["vacuum"], "text": "Robot vacuum_1 is a vacuum robot. It removes dry dirt on tile and carpet."},
+    {"id": "mop_1", "can": ["mop"], "text": "Robot mop_1 is a mopping robot. It wet-cleans tile floors only."},
+    {"id": "scout_1", "can": [], "text": "Robot scout_1 has a camera and detects dirt. It cannot clean."}
+  ],
+  "rules": [
+    "Dry dirt on tile is cleaned in two steps: first vacuum, then mop.",
+    "Wet dirt on tile is only mopped.",
+    "Never send a mopping robot onto a carpet."
+  ]
+}

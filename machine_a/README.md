@@ -2,6 +2,13 @@
 - mac environment
 - evaluation metrics, configs
 - scene graphs and semantic mapping?
+- todos for sunday
+    - 3d scene graph and world models
+    - problem definition (point 3)
+    - II: state of the art reorganization based on methods
+    - adding frameworks, SW packages, and underlying methods to III
+    - evaluation metrics
+   
 
 ## updates 
 - during deployment: mini pc for inference, laptop for sim

@@ -2,24 +2,30 @@
 - local models (connection to real world issue: privacy/security conscious applications make cloud models undesirable)  
 -> hardware constraints: limited compute -> experiment investigates compute costs vs quality trade offs  
 
-- especially relevant for tasks that don't require frontier model level performance. specific example: household cleaning robot (use-case where discomfort about security/privacy might be relevant)
-- RAG as equalizer for compute-constrained smaller models: shifts burden of model's parametric memory to external search mechanism rather than intrinsic attention mechanisms  
- -> experiment investigates how context access (full one shot vs retrieval) results in compute/quality tradeoff during spatial task allocation   
- -> at what level of environmental complexity (dirt level + fleet coordination) do retrieval methods become preferable?  
+- especially relevant to investigate how small can a model be? which types of coordination/allocation tasks would not require frontier model level performance. specific example: household cleaning robot (use-case where concerns about security/privacy might make cloud models restricted or unacceptable [cite: GDPR for EU home data, robot-vacuum images leaking])
+- RAG as candidate for equalizing compute-constrained smaller models: shifts burden of long-context attention and prefill computer on bandwidth limited iGPU (with risk of dilution) to retrieval step  
+- RAG shortcoming: allocation needs global view, but retrieval is local. why not obviously better for spatial allocation  
+ -> experiment investigates how context access (full context vs retrieval) results in compute/quality tradeoff during spatial task allocation   
+ -> at what level of environmental complexity (dirt level + fleet coordination) as description size grows do retrieval methods become preferable?  
 
 - general research question topic focus: how foundation model gets its context
-	- one-shot full context vs retrieval 
+	- full context vs retrieval as independent variables
 	- semantic mapping is perception problem (how knowledge is structured), not context (how knowledge is retrieved)
-		- argument: beyond scope + apt small enough unlikely to be big factor [need to find source again]
-
-### state of the art gap:
-- one-shot full context vs retrieval for single robot, not multirobot
-- llm multirobot use cloud models, costs under local compute not often measured
+		- argument: beyond scope + apt small enough unlikely to be big factor [need to find source again]  
+	- example problem statement: when does retrieval help or hurt allocation quality as description size grows, and at what compute cost?  
+	
+- scope: 
+	- project implementation: simulation, static known apt, no comparison to cloud models, foundation-model-only comparison
+	- unexplored avenues of solving hardware constraint problem: other ways of cutting compute require training (quantization, distillation, prompt compression)
 
 #### our contribution:
 - multiple robot setup +  local models + full context vs retrieval   
 -> context-access strategies + quality/compute trade-off + local-model task allocation + heterogeneous multi-household-robot cleaning setup  
 -> possible contribution statement: "an empirical study of when retrieval over a textual environment description helps or hurts local-model task allocation for heterogeneous cleaning teams, as description size grows" [claude sonnet 5.5]
+
+### state of the art gap:
+- full context vs retrieval for single robot, not multirobot
+- llm multirobot use cloud models, costs under local compute not often measured
 
 ### variables
 

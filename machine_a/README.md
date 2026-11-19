@@ -18,7 +18,8 @@
 
 #### our contribution:
 - multiple robot setup +  local models + full context vs retrieval   
--> context-access strategies + quality/compute trade-off + local-model task allocation + heterogeneous multi-household-robot cleaning setup
+-> context-access strategies + quality/compute trade-off + local-model task allocation + heterogeneous multi-household-robot cleaning setup  
+-> possible contribution statement: "an empirical study of when retrieval over a textual environment description helps or hurts local-model task allocation for heterogeneous cleaning teams, as description size grows" [claude sonnet 5.5]
 
 ### variables
 

@@ -1,10 +1,11 @@
 ### problem statement related to our experiment features: 
 - local models (connection to real world issue: privacy/security conscious applications make cloud models undesirable)  
--> hardware constraints: (limited compute -> compute costs vs quality trade offs)  
+-> hardware constraints: limited compute -> experiment investigates compute costs vs quality trade offs  
 
-- especially relevant for tasks that don't require frontier level complexity. specific example: household cleaning robot (discomfort about security/privacy etc)
+- especially relevant for tasks that don't require frontier model level performance. specific example: household cleaning robot (use-case where discomfort about security/privacy might be relevant)
 - RAG as equalizer for compute-constrained smaller models: shifts burden of model's parametric memory to external search mechanism rather than intrinsic attention mechanisms  
- -> context access (full one shot vs retrieval) tradeoffs during for spatial task allocation 
+ -> experiment investigates how context access (full one shot vs retrieval) results in compute/quality tradeoff during spatial task allocation   
+ -> at what level of environmental complexity (dirt level + fleet coordination) do retrieval methods become preferable?  
 
 - general research question topic focus: how foundation model gets its context
 	- one-shot full context vs retrieval 

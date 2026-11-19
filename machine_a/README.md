@@ -1,20 +1,48 @@
+### problem statement related to our experiment features: 
+- local models (connection to real world issue: privacy/security conscious applications make cloud models undesirable)  
+-> hardware constraints: (limited compute -> compute costs vs quality trade offs)  
+
+- especially relevant for tasks that don't require frontier level complexity. specific example: household cleaning robot (discomfort about security/privacy etc)
+- RAG as equalizer for compute-constrained smaller models: shifts burden of model's parametric memory to external search mechanism rather than intrinsic attention mechanisms  
+ -> context access (full one shot vs retrieval) tradeoffs during for spatial task allocation 
+
+- general research question topic focus: how foundation model gets its context
+	- one-shot full context vs retrieval 
+	- semantic mapping is perception problem (how knowledge is structured), not context (how knowledge is retrieved)
+		- argument: beyond scope + apt small enough unlikely to be big factor [need to find source again]
+
+### state of the art gap:
+- one-shot full context vs retrieval for single robot, not multirobot
+- llm multirobot use cloud models, costs under local compute not often measured
+
+#### our contribution:
+- multiple robot setup +  local models + full context vs retrieval   
+-> context-access strategies + quality/compute trade-off + local-model task allocation + heterogeneous multi-household-robot cleaning setup
+
+### variables
+
+- fleet composition (1 mop + 1 vacuum || 1 mop + 2 vacuums || 1 mop + 1 vacuum + 1 generalist
+	- structural variable of capability-heterogenous constraint graph
+	- allocation problem difficulty in ratio, complementarity of capabilities
+- dirt
+	- load variable of density of allocation problem
+- perception of dirt source
+	- gazebo ground truth || VLM detection
+
+
+
 ## Open Questions  
-- mac environment
-- evaluation metrics, configs
-- scene graphs and semantic mapping?
-- todos for sunday
-    - 3d scene graph and world models
-    - problem definition (point 3)
-    - II: state of the art reorganization based on methods
-    - adding frameworks, SW packages, and underlying methods to III
-    - evaluation metrics
+~~- mac environment~~  
+- evaluation metrics, configs  
+~~- scene graphs and semantic mapping~~  
+
+-  todos for sunday
+	- ~~3d scene graph and world models~~  
+    - problem definition (point 3)  
+    - II: state of the art reorganization based on methods  
+    - adding frameworks, SW packages, and underlying methods to III  
+    - evaluation metrics  
    
-
-## updates 
-- during deployment: mini pc for inference, laptop for sim
-- different repo structure
-- timeline
-
 ## repo:  
 swarm-cleaning/  
 ├── src/  
@@ -39,54 +67,6 @@ swarm-cleaning/
 ├── .gitignore  
 └── README\.md  
 
-#### mac options
-
-| Solution | Resource Overhead | Configuration Complexity | Communication Reliability |  
-|----------|-------------------|--------------------------|---------------------------|
-| **Docker + Discovery Server** | Low (container) | Medium (requires configuring Server IP) | High (unicast, not affected by multicast) |
-| **Docker + `--network host`** | Low | Low | Uncertain (macOS behavior requires testing) |
-| **Linux Virtual Machine (Vagrant/VMware)** | High (complete OS) | Medium | High (Linux-to-Linux, conventional configuration) |
-
-##### if dockerized, repo:  
-
-swarm-cleaning-rag/  
-├── src/                          # Unchanged: ROS 2 packages  
-│   ├── rag_interfaces/  
-│   ├── sim_bringup/  
-│   ├── turtlebot3_swarm/  
-│   ├── world_state/  
-│   ├── swarm_coordination/  
-│   ├── rag_inference/  
-│   └── llm_backend/  
-├── docker/                       # NEW: containerization layer  
-│   ├── sim/  
-│   │   ├── Dockerfile            # Jazzy + Gazebo + Nav2 (Mac side)  
-│   │   └── entrypoint\.sh  
-│   ├── inference/  
-│   │   ├── Dockerfile            # Jazzy + llama_ros + ChromaDB client (mini PC)  
-│   │   └── entrypoint\.sh  
-│   └── discovery/  
-│       └── Dockerfile            # Optional: Discovery Server container  
-├── docker-compose\.sim\.yml        # NEW: Mac-side compose (sim container)  
-├── docker-compose\.inference\.yml  # NEW: mini-PC compose (inference container)  
-├── config/  
-│   ├── network\.env\.example  
-│   ├── machine_sim\.yaml\.example  
-│   ├── machine_inference\.yaml\.example  
-│   └── dds/                      # NEW: DDS/Discovery Server configs  
-│       ├── discovery_client\.xml  # Used inside containers  
-│       └── discovery_server\.xml  
-├── scripts/  
-│   ├── setup_sim\.sh  
-│   ├── setup_inference\.sh  
-│   ├── run_experiment\.sh  
-│   ├── docker_build\.sh           # NEW  
-│   └── docker_run\.sh             # NEW  
-├── docs/  
-│   ├── architecture\.md  
-│   └── evaluation\.md  
-├── .gitignore                    # Updated: ignore Docker volumes, model caches  
-└── README\.md                     # Updated: build/run instructions per machine  
 
 ## timeline  
 - roughly **70–80% of development happens separately**

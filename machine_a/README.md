@@ -1,9 +1,29 @@
+## data flow pipeline
+```
+experiment_runner (seed, team, dirt %, method, description size)
+        | resets world, spawns robots
+        v
+ Gazebo world ---> world_manager (ground-truth dirt grid, floor types, scoring)
+        | camera                              ^ clean(room, mode) updates dirt
+        v                                     |
+ perception_node (VLM) --> DirtReport         |
+        |                                     |
+        v                                     |
+ planner_node <-- knowledge_base (apartment text + robot sheets + retriever)
+   method = fullcontext | rag                 |
+        | schema-constrained JSON plan        |
+        v                                     |
+ plan_validator --> executor (dependency gating) --> skill servers /cam /vac1 /mop1 ...
+ 
+```
+
+---
 ### problem statement related to our experiment features: 
 - local models (connection to real world issue: privacy/security conscious applications make cloud models undesirable)  
 -> hardware constraints: limited compute -> experiment investigates compute costs vs quality trade offs  
 
-- especially relevant to investigate how small can a model be? which types of coordination/allocation tasks would not require frontier model level performance. specific example: household cleaning robot (use-case where concerns about security/privacy might make cloud models restricted or unacceptable [cite: GDPR for EU home data, robot-vacuum images leaking])
-- RAG as candidate for equalizing compute-constrained smaller models: shifts burden of long-context attention and prefill computer on bandwidth limited iGPU (with risk of dilution) to retrieval step  
+- especially relevant to investigate how small can a model be (on consumer grade set-ups)? which types of coordination/allocation tasks would not require frontier model level performance. specific example: household cleaning robot (use-case where concerns about security/privacy might make cloud models restricted or unacceptable [cite: GDPR for EU home data, robot-vacuum images leaking])
+- RAG as candidate for equalizing compute-constrained smaller models: shifts burden of long-context attention and prefill compute on bandwidth limited iGPU (with risk of dilution) to retrieval step  
 - RAG shortcoming: allocation needs global view, but retrieval is local. why not obviously better for spatial allocation  
  -> experiment investigates how context access (full context vs retrieval) results in compute/quality tradeoff during spatial task allocation   
  -> at what level of environmental complexity (dirt level + fleet coordination) as description size grows do retrieval methods become preferable?  
@@ -37,9 +57,37 @@
 - perception of dirt source
 	- gazebo ground truth || VLM detection
 
+### state of the art outline:  
+general framing: problem of task allocation (spatial tasks in multirobot set up)  
 
+- classic/uncertainty aware optimization (Hungarian, MILP)  
+- LLM-based allocation (grouped by architecture)  
+	- centralized  
+    - decentralized dialogue  
+    - hybrid w solver  
+    - structured world model  
+    - singe centralized planner bc local hardware compute constraint. hybrid: why llm only for grounding  
+    - (llm multirobot lit survey, llm for coordination, further scope?)  
 
-## Open Questions  
+- something about structured grounding? and scene-graph?
+- VLM for perception, as input
+
+- knowledge retrieval aspect of problem -> full context vs retrieval (note EmbodiedRAG single robot study)
+    - who controls retrieval and when:
+    - in-prompt full context
+    - single retrieval
+    - model-driven iterative retrieval
+    - EmbodiedRAG (single robot, full-context baseline) paper
+    - agentic scene-graph interface paper (we don't evaluate. reasons: extra latency per call cost on local hardware, and reports of fragility in small-model agentic loops. future work)
+- investigation of compute costs vs quality (TU Wien ACIN, further scope?) by metric:
+    - tokens and planning time
+    - latency
+    - model size sensitivity
+- future work: 
+    - Small-model specialization for robot planning (BTGenBot-2, PRISM), to position local models as a trend
+---
+### Open Questions  
+
 ~~- mac environment~~  
 - evaluation metrics, configs  
 ~~- scene graphs and semantic mapping~~  
